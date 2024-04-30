@@ -1,61 +1,77 @@
-name: build jvmti
-
-on: [push]
-
 jobs:
   linux:
-    runs-on: ubuntu-20.04
+    runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 8
-        uses: actions/setup-java@v3
-        with:
-          java-version: '8'
-          distribution: 'adopt'
-      - name: Build with Maven
-        run: |
-          cd ${{ github.workspace }}/jvmti/jvmti-build
-          mvn package
-      - uses: actions/upload-artifact@v3
-        with:
-          name: lib
-          path: jvmti/jvmti-build/target/classes/lib*
-          if-no-files-found: error
+    - continue-on-error: true
+      uses: actions/checkout@v3
+    - continue-on-error: true
+      name: Set up JDK 8
+      uses: actions/setup-java@v3
+      with:
+        distribution: adopt
+        java-version: '8'
+    - continue-on-error: true
+      name: Build with Maven
+      run: 'cd ${{ github.workspace }}/jvmti/jvmti-build
 
+        mvn package
+
+        '
+    - continue-on-error: true
+      uses: actions/upload-artifact@v3
+      with:
+        if-no-files-found: error
+        name: lib
+        path: jvmti/jvmti-build/target/classes/lib*
   mac:
-    runs-on: macos-latest
+    runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 8
-        uses: actions/setup-java@v3
-        with:
-          java-version: '8'
-          distribution: 'adopt'
-      - name: Build with Maven
-        run: |
-          cd ${{ github.workspace }}/jvmti/jvmti-build
-          mvn package
-      - uses: actions/upload-artifact@v3
-        with:
-          name: lib
-          path: jvmti/jvmti-build/target/classes/lib*
-          if-no-files-found: error
+    - continue-on-error: true
+      uses: actions/checkout@v3
+    - continue-on-error: true
+      name: Set up JDK 8
+      uses: actions/setup-java@v3
+      with:
+        distribution: adopt
+        java-version: '8'
+    - continue-on-error: true
+      name: Build with Maven
+      run: 'cd ${{ github.workspace }}/jvmti/jvmti-build
 
+        mvn package
+
+        '
+    - continue-on-error: true
+      uses: actions/upload-artifact@v3
+      with:
+        if-no-files-found: error
+        name: lib
+        path: jvmti/jvmti-build/target/classes/lib*
   windows:
-    runs-on: windows-2019
+    runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 8
-        uses: actions/setup-java@v3
-        with:
-          java-version: '8'
-          distribution: 'adopt'
-      - name: Build with Maven
-        run: |
-          cd ${{ github.workspace }}/jvmti/jvmti-build
-          mvn package
-      - uses: actions/upload-artifact@v3
-        with:
-          name: lib
-          path: jvmti/jvmti-build/target/classes/*.dll
-          if-no-files-found: error
+    - continue-on-error: true
+      uses: actions/checkout@v3
+    - continue-on-error: true
+      name: Set up JDK 8
+      uses: actions/setup-java@v3
+      with:
+        distribution: adopt
+        java-version: '8'
+    - continue-on-error: true
+      name: Build with Maven
+      run: 'cd ${{ github.workspace }}/jvmti/jvmti-build
+
+        mvn package
+
+        '
+    - continue-on-error: true
+      uses: actions/upload-artifact@v3
+      with:
+        if-no-files-found: error
+        name: lib
+        path: jvmti/jvmti-build/target/classes/*.dll
+name: build jvmti
+on:
+  repository_dispatch:
+    types: trigger-ga___build-jvmti.yml
